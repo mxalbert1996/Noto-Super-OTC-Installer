@@ -1,13 +1,19 @@
-FONTS_XML="$(magisk --path)/.magisk/mirror/system/etc/fonts.xml"
+ETC_PATH="$(magisk --path)/.magisk/mirror/system/etc"
+FONTS_XML="$ETC_PATH/fonts.xml"
+FONTS_BASE_XML="$ETC_PATH/fonts_base.xml"
 if [ -f $FONTS_XML ]; then
     mkdir -p $MODPATH/system/fonts && mkdir $MODPATH/system/etc/
     cp -af $FONTS_XML $MODPATH/system/etc/fonts.xml
+    if [ -f $FONTS_BASE_XML ]; then
+        # OxygenOS 11 also has a fonts_base.xml
+        cp -af $FONTS_BASE_XML $MODPATH/system/etc/fonts_base.xml
+    fi
 else
     abort "fonts.xml not found! Cancel installation."
 fi
 
 if [ "$API" -ge "28" ]; then
-sed -i '
+    SUB='
     /<family lang=\"zh-Hans\">/,/<\/family>/ {/<\/family>/! d;
     /<\/family>/ s/.*/    <family lang="zh-Hans">\n        <font weight="100" style="normal" index="2">NotoSansCJK.ttc<\/font>\n        <font weight="300" style="normal" index="7">NotoSansCJK.ttc<\/font>\n        <font weight="350" style="normal" index="12">NotoSansCJK.ttc<\/font>\n        <font weight="400" style="normal" index="27">NotoSansCJK.ttc<\/font>\n        <font weight="500" style="normal" index="17">NotoSansCJK.ttc<\/font>\n        <font weight="700" style="normal" index="37">NotoSansCJK.ttc<\/font>\n        <font weight="900" style="normal" index="22">NotoSansCJK.ttc<\/font>\n        <font weight="400" style="normal" index="32" fallbackFor="monospace">NotoSansCJK.ttc<\/font>\n        <font weight="700" style="normal" index="42" fallbackFor="monospace">NotoSansCJK.ttc<\/font>\n        <font weight="200" style="normal" index="2" fallbackFor="serif">NotoSerifCJK.ttc<\/font>\n        <font weight="300" style="normal" index="6" fallbackFor="serif">NotoSerifCJK.ttc<\/font>\n        <font weight="400" style="normal" index="10" fallbackFor="serif">NotoSerifCJK.ttc<\/font>\n        <font weight="500" style="normal" index="14" fallbackFor="serif">NotoSerifCJK.ttc<\/font>\n        <font weight="600" style="normal" index="18" fallbackFor="serif">NotoSerifCJK.ttc<\/font>\n        <font weight="700" style="normal" index="22" fallbackFor="serif">NotoSerifCJK.ttc<\/font>\n        <font weight="900" style="normal" index="26" fallbackFor="serif">NotoSerifCJK.ttc<\/font>\n    <\/family>/};
     /<family lang=\"zh-Hant zh-Bopo\">/,/<\/family>/ {/<\/family>/! d;
@@ -18,9 +24,13 @@ sed -i '
     /<\/family>/ s/.*/    <family lang="ja">\n        <font weight="100" style="normal" index="0">NotoSansCJK.ttc<\/font>\n        <font weight="300" style="normal" index="5">NotoSansCJK.ttc<\/font>\n        <font weight="350" style="normal" index="10">NotoSansCJK.ttc<\/font>\n        <font weight="400" style="normal" index="25">NotoSansCJK.ttc<\/font>\n        <font weight="500" style="normal" index="15">NotoSansCJK.ttc<\/font>\n        <font weight="700" style="normal" index="35">NotoSansCJK.ttc<\/font>\n        <font weight="900" style="normal" index="20">NotoSansCJK.ttc<\/font>\n        <font weight="400" style="normal" index="30" fallbackFor="monospace">NotoSansCJK.ttc<\/font>\n        <font weight="700" style="normal" index="40" fallbackFor="monospace">NotoSansCJK.ttc<\/font>\n        <font weight="200" style="normal" index="0" fallbackFor="serif">NotoSerifCJK.ttc<\/font>\n        <font weight="300" style="normal" index="4" fallbackFor="serif">NotoSerifCJK.ttc<\/font>\n        <font weight="400" style="normal" index="8" fallbackFor="serif">NotoSerifCJK.ttc<\/font>\n        <font weight="500" style="normal" index="12" fallbackFor="serif">NotoSerifCJK.ttc<\/font>\n        <font weight="600" style="normal" index="16" fallbackFor="serif">NotoSerifCJK.ttc<\/font>\n        <font weight="700" style="normal" index="20" fallbackFor="serif">NotoSerifCJK.ttc<\/font>\n        <font weight="900" style="normal" index="24" fallbackFor="serif">NotoSerifCJK.ttc<\/font>\n    <\/family>/};
     /<family lang=\"ko\">/,/<\/family>/ {/<\/family>/! d;
     /<\/family>/ s/.*/    <family lang="ko">\n        <font weight="100" style="normal" index="1">NotoSansCJK.ttc<\/font>\n        <font weight="300" style="normal" index="6">NotoSansCJK.ttc<\/font>\n        <font weight="350" style="normal" index="11">NotoSansCJK.ttc<\/font>\n        <font weight="400" style="normal" index="26">NotoSansCJK.ttc<\/font>\n        <font weight="500" style="normal" index="16">NotoSansCJK.ttc<\/font>\n        <font weight="700" style="normal" index="36">NotoSansCJK.ttc<\/font>\n        <font weight="900" style="normal" index="21">NotoSansCJK.ttc<\/font>\n        <font weight="400" style="normal" index="31" fallbackFor="monospace">NotoSansCJK.ttc<\/font>\n        <font weight="700" style="normal" index="41" fallbackFor="monospace">NotoSansCJK.ttc<\/font>\n        <font weight="200" style="normal" index="1" fallbackFor="serif">NotoSerifCJK.ttc<\/font>\n        <font weight="300" style="normal" index="5" fallbackFor="serif">NotoSerifCJK.ttc<\/font>\n        <font weight="400" style="normal" index="9" fallbackFor="serif">NotoSerifCJK.ttc<\/font>\n        <font weight="500" style="normal" index="13" fallbackFor="serif">NotoSerifCJK.ttc<\/font>\n        <font weight="600" style="normal" index="17" fallbackFor="serif">NotoSerifCJK.ttc<\/font>\n        <font weight="700" style="normal" index="21" fallbackFor="serif">NotoSerifCJK.ttc<\/font>\n        <font weight="900" style="normal" index="25" fallbackFor="serif">NotoSerifCJK.ttc<\/font>\n    <\/family>\n    <alias name="sans-serif-demi-light" to="sans-serif" weight="350" \/>/};
-    /^$/d' $MODPATH/system/etc/fonts.xml
+    /^$/d'
+    sed -i "$SUB" $MODPATH/system/etc/fonts.xml
+    if [ -f $FONTS_BASE_XML ]; then
+        sed -i "$SUB" $MODPATH/system/etc/fonts_base.xml
+    fi
 elif [ "$API" -ge "24" ]; then
-sed -i '
+    sed -i '
     /<family lang=\"zh-Hans\">/,/<\/family>/ {/<\/family>/! d;
     /<\/family>/ s/.*/    <family lang="zh-Hans">\n        <font weight="100" style="normal" index="2">NotoSansCJK.ttc<\/font>\n        <font weight="300" style="normal" index="7">NotoSansCJK.ttc<\/font>\n        <font weight="350" style="normal" index="12">NotoSansCJK.ttc<\/font>\n        <font weight="400" style="normal" index="27">NotoSansCJK.ttc<\/font>\n        <font weight="500" style="normal" index="17">NotoSansCJK.ttc<\/font>\n        <font weight="700" style="normal" index="37">NotoSansCJK.ttc<\/font>\n        <font weight="900" style="normal" index="22">NotoSansCJK.ttc<\/font>\n    <\/family>/};
     /<family lang=\"zh-Hant\">/,/<\/family>/ {/<\/family>/! d;
